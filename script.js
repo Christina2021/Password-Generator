@@ -2,11 +2,18 @@
 var generateBtn = document.querySelector("#generate");
 
 //Create variables
-var passLength;
-var passLower;
-var passUpper;
-var passNum;
-var passSpecial;
+var passLength;   //for length of password
+var passLower;    //for containing lowercase letters
+var passUpper;    //for containing uppercase letters
+var passNum;      //for containing numbers
+var passSpecial;  //for containing special characters
+
+//Create arrays for character types
+var charLower = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+var charUpper = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+var charNum = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+var charSpecial = [' ', '!', '\"', '#', '$', '%', '&', '\'', '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', '{', '|', '}', '~'];
+
 
 // Write password to the #password input
 function writePassword() {
