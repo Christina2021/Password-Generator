@@ -1,27 +1,32 @@
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
 
-//Create variables
+//Create variables for prompts
 var passLength;   //for length of password
 var passLower;    //for containing lowercase letters
 var passUpper;    //for containing uppercase letters
 var passNum;      //for containing numbers
 var passSpecial;  //for containing special characters
+var genPass;      //for adding charaters to create a password
 
 //Create arrays for character types
 var charLower = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
 var charUpper = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 var charNum = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 var charSpecial = [' ', '!', '\"', '#', '$', '%', '&', '\'', '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', '{', '|', '}', '~'];
+var charType = [];  //for generatePassword function
 
 
 // Write password to the #password input
 function writePassword() {
+  //Possibly create if/else statement for if password was already generated,  to make confirm for a new password to be made.
+  // if(password !== true){
+  //   generatePassword();
+  // };
+
   var password = generatePassword();
   //#password linked to textarea in html file
   var passwordText = document.querySelector("#password");
-
-  //Possibly create if/else statement for if password was already generated,  to make confirm for a new password to be made.
 
   //Alerts users that they will be selecting criteria for their new password
   alert("Please continue to select your specific criteria for your new password!")
@@ -67,11 +72,46 @@ function writePassword() {
     };
   };
 
+  generatePassword();
+
   //Combines all criteria to generate a password
   function generatePassword() {
-    
-  }
+      //Need to add character types that the user selected
+      //If the user selected to include lowercase
+      if(passLower){
+        for (let j = 0; j < charLower.length; j++){
+          charType.push(charLower[j]); 
+        };
+      };
+      //If the user selected to include uppercase
+      if(passUpper){
+        for (let k = 0; k < charUpper.length; k++){
+          charType.push(charUpper[k]); 
+        };
+      };
+      //If the user selected to include numbers
+      if(passNum){
+        for (let l = 0; l < charNum.length; l++){
+          charType.push(charNum[l]); 
+        };
+      };
+      //If the user selected to include special characters
+      if(passSpecial){
+        for (let m = 0; m < charSpecial.length; m++){
+          charType.push(charSpecial[m]); 
+        };
+      };
 
+
+      //Need to add characters until reaches same value as passLength selected by user
+
+      //Need to add characters to the password
+      // genPass = genPass + 
+
+      //Return the generated password
+      //return genPass; 
+
+  };
   passwordText.value = password;
 
 }
