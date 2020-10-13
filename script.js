@@ -8,7 +8,9 @@ var passUpper;    //for containing uppercase letters
 var passNum;      //for containing numbers
 var passSpecial;  //for containing special characters
 var p;            //for finding specific character to add to the password
-var genPass = "";      //for adding charaters to create a password
+var genPass;      //for adding charaters to create a password
+var newPass;      //for if password is already created but the user wants a new one
+var password = '';
 
 //Create arrays for character types
 var charLower = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
@@ -17,15 +19,27 @@ var charNum = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 var charSpecial = [' ', '!', '\"', '#', '$', '%', '&', '\'', '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', '{', '|', '}', '~'];
 var charType = [];  //for generatePassword function
 
+// Will first determine if password is already made, and ask the user if they want to generate a new one
+function confirmPassword(){
+  if(password){
+    newPass = confirm("It looks like there is already a password that was generated.  Would you like to generate a new password?")
+      if (newPass) {
+        writePassword();
+      };
+  } else {
+    writePassword();
+  };
+};
 
 // Write password to the #password input
 function writePassword() {
-  //Possibly create if/else statement for if password was already generated,  to make confirm for a new password to be made.
-  // if(password !== true){
-  //   generatePassword();
-  // };
 
-  var password;
+  //Resets previous password information if generating a new password
+  password = '';
+  passLength = 0;
+  genPass= "";
+  charType = [];
+
   //#password linked to textarea in html file
   var passwordText = document.querySelector("#password");
 
@@ -120,4 +134,4 @@ function writePassword() {
 };
 
 // Add event listener to generate button (when clicked, calls writePassword function)
-generateBtn.addEventListener("click", writePassword);
+generateBtn.addEventListener("click", confirmPassword);
