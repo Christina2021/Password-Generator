@@ -25,7 +25,7 @@ function writePassword() {
   //   generatePassword();
   // };
 
-  var password = generatePassword();
+  var password;
   //#password linked to textarea in html file
   var passwordText = document.querySelector("#password");
 
@@ -73,8 +73,6 @@ function writePassword() {
     };
   };
 
-  generatePassword();
-
   //Combines all criteria to generate a password
   function generatePassword() {
       //Need to add character types that the user selected
@@ -112,17 +110,14 @@ function writePassword() {
         genPass = genPass + charType[p];
       };
 
-
-      //Need to add characters to the password
-      // genPass = genPass + 
-
       //Return the generated password
-      //return genPass; 
+      return genPass; 
 
   };
+  password = generatePassword();
   passwordText.value = password;
 
-}
+};
 
 // Add event listener to generate button (when clicked, calls writePassword function)
 generateBtn.addEventListener("click", writePassword);
