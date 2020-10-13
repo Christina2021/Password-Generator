@@ -7,7 +7,8 @@ var passLower;    //for containing lowercase letters
 var passUpper;    //for containing uppercase letters
 var passNum;      //for containing numbers
 var passSpecial;  //for containing special characters
-var genPass;      //for adding charaters to create a password
+var p;            //for finding specific character to add to the password
+var genPass = "";      //for adding charaters to create a password
 
 //Create arrays for character types
 var charLower = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
@@ -103,7 +104,14 @@ function writePassword() {
       };
 
 
-      //Need to add characters until reaches same value as passLength selected by user
+      //Need to add characters randomly until reaches same value as passLength selected by user
+      for (let n = 0; n < passLength; n++){
+        //Generate random number to use for array index
+        p = Math.floor(Math.random() * charType.length);
+        //Using p, add array index to password
+        genPass = genPass + charType[p];
+      };
+
 
       //Need to add characters to the password
       // genPass = genPass + 
