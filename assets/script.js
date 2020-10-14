@@ -1,37 +1,48 @@
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
 
-//Create variables for prompts
+//Created variables for prompts
 var passLength;   //for length of password
 var passLower;    //for containing lowercase letters
 var passUpper;    //for containing uppercase letters
 var passNum;      //for containing numbers
 var passSpecial;  //for containing special characters
-var p;            //for finding specific character to add to the password
-var genPass;      //for adding charaters to create a password
-var newPass;      //for if password is already created but the user wants a new one
-var password = '';
 
-//Create arrays for character types
+//Variables to use for generating password
+var newPass;      //used for function to confirm if user wants a new password after already creating one
+var pIndex;       //for finding specific character in the charType array to add to the password (which index will be added)
+var genPass;      //for adding charaters for generate password function; returns genPass for password value
+var password = '';  //initially sets password as an empty string
+
+//Created arrays for the specific character types
+//Lowercase letters
 var charLower = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+//Upperchase letters
 var charUpper = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+//Numbers
 var charNum = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+//Special Characters
 var charSpecial = [' ', '!', '\"', '#', '$', '%', '&', '\'', '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', '{', '|', '}', '~'];
+
+//Array used to add the specific character type-arrays based on user's choosing
 var charType = [];  //for generatePassword function
 
-// Will first determine if password is already made, and ask the user if they want to generate a new one
+
+// First function called upon user clicking button; Will first determine if password is already made, and ask the user if they want to generate a new one
 function confirmPassword(){
+  //If password is already made, will ask if wants a new one (if confirmed, will call writePassword function)
   if(password){
     newPass = confirm("It looks like there is already a password that was generated.  Would you like to generate a new password?")
       if (newPass) {
         writePassword();
-      };
+      }; //else - does nothing
+  //If password was not already made yet (first time using it), will automatically call writePassword function
   } else {
     writePassword();
   };
 };
 
-// Write password to the #password input
+//Large function to receive user's criteria, have a password generated, and then add the password to the textarea in html file
 function writePassword() {
 
   //Resets previous password information if generating a new password
@@ -46,12 +57,12 @@ function writePassword() {
   //Alerts users that they will be selecting criteria for their new password
   alert("Please continue to select your specific criteria for your new password!")
   
-  //Prompts user to select length; within a while loop to have correct value entered
+  //Prompts user to select length; wiill loop if user does not enter a whole number between 8-128
   while ((Number.isInteger(passLength) !== true) || (passLength < 8 || passLength > 128)){
     passLength = prompt("Please choose a length for your password.  Must be at least 8 characters, and no more than 128 characters.  (Please only enter a whole number.");
     //Converts value of string to number
     passLength = parseFloat(passLength, 10);
-    //alert if user does not enter a number
+    //alert if user does not enter a whole number between 8-128
     if((Number.isInteger(passLength) !== true) || (passLength < 8 || passLength > 128)){
       alert("Please enter a whole number between 8 and 128.");
     }
@@ -74,7 +85,7 @@ function writePassword() {
     //Validate input with at least one character type selected
     i = true; //Sets i to true
 
-    //But if none were actually confirmed, i will be set  to false
+    //But if none were actually confirmed, i will be set  to false, user will be alerted, and user will need to go through the prompts again to select one
     if(passLower !== true){
       if(passUpper !== true){
         if(passNum !== true){
@@ -87,9 +98,9 @@ function writePassword() {
     };
   };
 
-  //Combines all criteria to generate a password
+  //Combines all user's criteria to generate a password
   function generatePassword() {
-      //Need to add character types that the user selected
+      //Need to add character types that the user selected; will add to the empty array charType
       //If the user selected to include lowercase
       if(passLower){
         for (let j = 0; j < charLower.length; j++){
@@ -116,22 +127,27 @@ function writePassword() {
       };
 
 
-      //Need to add characters randomly until reaches same value as passLength selected by user
+      //Need to add characters randomly until reaches same value as passLength selected by user; charType will contain the array that will be randomly picked from
       for (let n = 0; n < passLength; n++){
-        //Generate random number to use for array index
-        p = Math.floor(Math.random() * charType.length);
-        //Using p, add array index to password
-        genPass = genPass + charType[p];
+        //Generate random number to use for array index (number will be based on how many character types the user chose)
+        pIndex = Math.floor(Math.random() * charType.length);
+        //Using pIndex value calculated above, add specific array index to password
+        genPass = genPass + charType[pIndex];
       };
+
+      //An alert stating new password was created
+      alert("Click OK to see your new password in the box below!");
 
       //Return the generated password
       return genPass; 
 
   };
+
+  //calls to generate password, and then add it to textbox
   password = generatePassword();
   passwordText.value = password;
 
 };
 
-// Add event listener to generate button (when clicked, calls writePassword function)
+// When "Generate Password" button is clicked, first calls confirmPassword function
 generateBtn.addEventListener("click", confirmPassword);
