@@ -43,6 +43,7 @@ function confirmPassword(){
   };
 };
 
+
 //Large function to receive user's criteria, have a password generated, and then add the password to the textarea in html file
 function writePassword() {
 
@@ -123,6 +124,7 @@ function writePassword() {
       charType.push(charSpecial[m]); 
     };
   };
+
 
   //Combines all user's criteria to generate a password
   function generatePassword() {
@@ -207,6 +209,7 @@ function writePassword() {
   passwordText.value = password;
 
 };
+
 
 // When "Generate Password" button is clicked, first calls confirmPassword function
 generateBtn.addEventListener("click", confirmPassword);
