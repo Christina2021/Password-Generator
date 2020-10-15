@@ -12,6 +12,7 @@ var passSpecial;  //for containing special characters
 var newPass;      //used for function to confirm if user wants a new password after already creating one
 var pIndex;       //for finding specific character in the charType array to add to the password (which index will be added)
 var genPass;      //for adding charaters for generate password function; returns genPass for password value
+var pCheck;       //for checking criteria
 var password = '';  //initially sets password as an empty string
 
 //Created arrays for the specific character types
@@ -20,7 +21,7 @@ var charLower = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm'
 //Upperchase letters
 var charUpper = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 //Numbers
-var charNum = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+var charNum = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 //Special Characters
 var charSpecial = [' ', '!', '\"', '#', '$', '%', '&', '\'', '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', '{', '|', '}', '~'];
 
@@ -48,14 +49,13 @@ function writePassword() {
   //Resets previous password information if generating a new password
   password = '';
   passLength = 0;
-  genPass= "";
   charType = [];
 
   //#password linked to textarea in html file
   var passwordText = document.querySelector("#password");
 
   //Alerts users that they will be selecting criteria for their new password
-  alert("Please continue to select your specific criteria for your new password!")
+  alert("Please continue to select your specific criteria for your new password!  Password will generate in the box below!")
   
   //Prompts user to select length; wiill loop if user does not enter a whole number between 8-128
   while ((Number.isInteger(passLength) !== true) || (passLength < 8 || passLength > 128)){
@@ -98,48 +98,107 @@ function writePassword() {
     };
   };
 
+  //Need to add character types that the user selected; will add to the empty array charType
+  //If the user selected to include lowercase
+  if(passLower){
+    for (let j = 0; j < charLower.length; j++){
+      charType.push(charLower[j]); 
+    };
+  };
+  //If the user selected to include uppercase
+  if(passUpper){
+    for (let k = 0; k < charUpper.length; k++){
+      charType.push(charUpper[k]); 
+    };
+  };
+  //If the user selected to include numbers
+  if(passNum){
+    for (let l = 0; l < charNum.length; l++){
+      charType.push(charNum[l]); 
+    };
+  };
+  //If the user selected to include special characters
+  if(passSpecial){
+    for (let m = 0; m < charSpecial.length; m++){
+      charType.push(charSpecial[m]); 
+    };
+  };
+
   //Combines all user's criteria to generate a password
   function generatePassword() {
-      //Need to add character types that the user selected; will add to the empty array charType
-      //If the user selected to include lowercase
-      if(passLower){
-        for (let j = 0; j < charLower.length; j++){
-          charType.push(charLower[j]); 
+
+    pCheck = false; //resets pCheck for criterial validator
+    genPass= "";    //resets genPass to nothing
+
+    //Need to add characters randomly until reaches same value as passLength selected by user; charType will contain the array that will be randomly picked from
+    for (let n = 0; n < passLength; n++){
+      //Generate random number to use for array index (number will be based on how many character types the user chose)
+      pIndex = Math.floor(Math.random() * charType.length);
+      //Using pIndex value calculated above, add specific array index to password
+      genPass = genPass + charType[pIndex];
+    };
+    
+
+    //Criteria checker!
+    if(passLower){ //checks if password generated has at least one lowercase letter if user selected for it 
+      pCheck = false;
+      for(let w = 0; w <= genPass.length; w++){
+        //if password does contains lowercase, break out of statement
+        if(charLower.indexOf(genPass.charAt(w)) > -1){
+          pCheck = true;
+          break;
         };
       };
-      //If the user selected to include uppercase
-      if(passUpper){
-        for (let k = 0; k < charUpper.length; k++){
-          charType.push(charUpper[k]); 
+      //If criteria above was not met, create a new password
+      if(pCheck === false) {
+      generatePassword();
+      };
+    };
+    if(passUpper){ //checks if password generated has at least one uppercase letter if user selected for it 
+      for(let x = 0; x <= genPass.length; x++){
+        pCheck = false
+        //if password does contains uppercase, break out of statement   
+        if(charUpper.indexOf(genPass.charAt(x)) > -1){
+          pCheck = true;
+          break;
         };
       };
-      //If the user selected to include numbers
-      if(passNum){
-        for (let l = 0; l < charNum.length; l++){
-          charType.push(charNum[l]); 
+      //If criteria above was not met, create a new password
+      if(pCheck === false) {
+        generatePassword();
+      };      
+    };
+    if(passNum){ //checks if password generated has at least one number if user selected for it 
+      for(let y = 0; y <= genPass.length; y++){
+        pCheck = false
+        //if password does contains number, break out of statement   
+        if(charNum.indexOf(genPass.charAt(y)) > -1){
+          pCheck = true;
+          break;
         };
       };
-      //If the user selected to include special characters
-      if(passSpecial){
-        for (let m = 0; m < charSpecial.length; m++){
-          charType.push(charSpecial[m]); 
+      //If criteria above was not met, create a new password
+      if(pCheck === false) {
+        generatePassword();
+      };           
+    };
+    if(passSpecial){ //checks if password generated has at least one special character if user selected for it 
+      for(let z = 0; z <= genPass.length; z++){
+        pCheck = false
+        //if password does contains special character, break out of statement 
+        if(charSpecial.indexOf(genPass.charAt(z)) > -1){
+          pCheck = true;
+          break;
         };
       };
+      //If criteria above was not met, create a new password
+      if(pCheck === false) {
+        generatePassword();
+      };         
+    };
 
-
-      //Need to add characters randomly until reaches same value as passLength selected by user; charType will contain the array that will be randomly picked from
-      for (let n = 0; n < passLength; n++){
-        //Generate random number to use for array index (number will be based on how many character types the user chose)
-        pIndex = Math.floor(Math.random() * charType.length);
-        //Using pIndex value calculated above, add specific array index to password
-        genPass = genPass + charType[pIndex];
-      };
-
-      //An alert stating new password was created
-      alert("Click OK to see your new password in the box below!");
-
-      //Return the generated password
-      return genPass; 
+    //Return the generated password
+    return genPass; 
 
   };
 
