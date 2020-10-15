@@ -87,43 +87,29 @@ function writePassword() {
     i = true; //Sets i to true
 
     //But if none were actually confirmed, i will be set  to false, user will be alerted, and user will need to go through the prompts again to select one
-    if(passLower !== true){
-      if(passUpper !== true){
-        if(passNum !== true){
-          if(passSpecial !== true) {
-            i = false;
-            alert("You must confirm at least one character type.  Your choices will be to include lowercase letters, uppercase letters, numbers, and/or special characters.")
-          };
-        };
+    if(passLower !== true && passUpper !== true && passNum !== true && passSpecial !== true){
+      i = false;
+      alert("You must confirm at least one character type.  Your choices will be to include lowercase letters, uppercase letters, numbers, and/or special characters.")
+    };
+  };
+
+  //Need to add character types that the user selected; function created that will add to the empty array charType
+  function addingCharTypes(userCriterion,charArrays){
+    if(userCriterion){
+      for (let j = 0; j < charArrays.length; j++){
+        charType.push(charArrays[j]); 
       };
     };
   };
 
-  //Need to add character types that the user selected; will add to the empty array charType
-  //If the user selected to include lowercase
-  if(passLower){
-    for (let j = 0; j < charLower.length; j++){
-      charType.push(charLower[j]); 
-    };
-  };
-  //If the user selected to include uppercase
-  if(passUpper){
-    for (let k = 0; k < charUpper.length; k++){
-      charType.push(charUpper[k]); 
-    };
-  };
-  //If the user selected to include numbers
-  if(passNum){
-    for (let l = 0; l < charNum.length; l++){
-      charType.push(charNum[l]); 
-    };
-  };
-  //If the user selected to include special characters
-  if(passSpecial){
-    for (let m = 0; m < charSpecial.length; m++){
-      charType.push(charSpecial[m]); 
-    };
-  };
+  //Call addingCharTypes function to add lowercase letters, if selected
+  addingCharTypes(passLower,charLower);
+  //Call addingCharTypes function to add uppercase letters, if selected  
+  addingCharTypes(passUpper,charUpper);
+  //Call addingCharTypes function to add numbers, if selected  
+  addingCharTypes(passNum,charNum);
+  //Call addingCharTypes function to add special characters, if selected  
+  addingCharTypes(passSpecial,charSpecial);
 
 
   //Combines all user's criteria to generate a password
@@ -133,7 +119,7 @@ function writePassword() {
     genPass= "";    //resets genPass to nothing
 
     //Need to add characters randomly until reaches same value as passLength selected by user; charType will contain the array that will be randomly picked from
-    for (let n = 0; n < passLength; n++){
+    for (let k = 0; k < passLength; k++){
       //Generate random number to use for array index (number will be based on how many character types the user chose)
       pIndex = Math.floor(Math.random() * charType.length);
       //Using pIndex value calculated above, add specific array index to password
@@ -141,63 +127,32 @@ function writePassword() {
     };
     
 
-    //Criteria checker!
-    if(passLower){ //checks if password generated has at least one lowercase letter if user selected for it 
-      pCheck = false;
-      for(let w = 0; w <= genPass.length; w++){
-        //if password does contains lowercase, break out of statement
-        if(charLower.indexOf(genPass.charAt(w)) > -1){
-          pCheck = true;
-          break;
+    //Criteria checker! Function created to check if a criterion was selected, and if the password includes at least one index from the specific criterion array
+    function criteriaChecker(passwordCriterion,eachCharArray){
+      if(passwordCriterion){ //checks if user selected the criterion
+        pCheck = false;  //resets pCheck
+        for(let l = 0; l <= genPass.length; l++){
+          //if password does contains criterion, updates pCheck to true break out of statement
+          if(eachCharArray.indexOf(genPass.charAt(l)) > -1){
+            pCheck = true;
+            break;
+          };
         };
-      };
-      //If criteria above was not met, create a new password
-      if(pCheck === false) {
-      generatePassword();
-      };
-    };
-    if(passUpper){ //checks if password generated has at least one uppercase letter if user selected for it 
-      for(let x = 0; x <= genPass.length; x++){
-        pCheck = false
-        //if password does contains uppercase, break out of statement   
-        if(charUpper.indexOf(genPass.charAt(x)) > -1){
-          pCheck = true;
-          break;
-        };
-      };
-      //If criteria above was not met, create a new password
-      if(pCheck === false) {
+        //If criteria above was not met (pCheck is false), create a new password
+        if(pCheck === false) {
         generatePassword();
-      };      
-    };
-    if(passNum){ //checks if password generated has at least one number if user selected for it 
-      for(let y = 0; y <= genPass.length; y++){
-        pCheck = false
-        //if password does contains number, break out of statement   
-        if(charNum.indexOf(genPass.charAt(y)) > -1){
-          pCheck = true;
-          break;
         };
       };
-      //If criteria above was not met, create a new password
-      if(pCheck === false) {
-        generatePassword();
-      };           
     };
-    if(passSpecial){ //checks if password generated has at least one special character if user selected for it 
-      for(let z = 0; z <= genPass.length; z++){
-        pCheck = false
-        //if password does contains special character, break out of statement 
-        if(charSpecial.indexOf(genPass.charAt(z)) > -1){
-          pCheck = true;
-          break;
-        };
-      };
-      //If criteria above was not met, create a new password
-      if(pCheck === false) {
-        generatePassword();
-      };         
-    };
+
+    //Calls criteriaChecker function to make sure password contains lowercase letter, if user selected for it.
+    criteriaChecker(passLower,charLower);
+    //Calls criteriaChecker function to make sure password contains uppercase letter, if user selected for it.
+    criteriaChecker(passUpper,charUpper);
+    //Calls criteriaChecker function to make sure password contains number, if user selected for it.
+    criteriaChecker(passNum,charNum);
+    //Calls criteriaChecker function to make sure password contains special character, if user selected for it.
+    criteriaChecker(passSpecial,charSpecial);
 
     //Return the generated password
     return genPass; 
