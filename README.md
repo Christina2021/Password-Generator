@@ -2,8 +2,7 @@
 
 ***
 
-<p align="center"> <img src="https://img.shields.io/badge/javascript%20-%23323330.svg?&style=for-the-badge&logo=javascript&logoColor=%23F7DF1E
-"></p>
+<p align="center"> <img src="https://img.shields.io/badge/javascript%20-%23323330.svg?&style=for-the-badge&logo=javascript&logoColor=%23F7DF1E" alt="JavaScript"></p>
 
 ![screenshot](./assets/images/readme-screenshot.png)
 
